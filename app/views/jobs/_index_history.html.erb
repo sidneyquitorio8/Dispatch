@@ -1,0 +1,105 @@
+<section>
+  <p class="title" data-section-title><a href="#panel4">My History</a></p>
+
+  <div class="content" data-section-content>
+    <% if @history.present? %>
+      <ul id="history-job-ul">
+        <% @history.each do |job| %>
+          <li class='job panel radius'>
+
+            <% i = job.id %>
+            <div class="row">
+              <div class="small-12 columns">
+                <ul class="small-block-grid-2">
+                  <li>
+                    <strong><%= link_to job.category, job, "data-no-turbolink" => "true" %></strong><br>
+                    <%= job.location %><br>
+                    <div class="status small radius button disabled <%= status_class(job) %>"><%= job.status %></div><br>
+                    <div class="est-time small radius button secondary disabled"> Created: <%= job.created_at.strftime('%l:%M %p %b %d') %></div><br>
+                    <% if completed?(job) %>
+                        <div class="est-time small radius button secondary disabled">Ended: <%= job.completed_at.strftime('%l:%M %p %b %d') %></div><br>
+                    <% elsif cancelled?(job) %>
+                        <div class="est-time small radius button secondary disabled">Cancelled: <%= job.cancelled_at.strftime('%l:%M %p %b %d') %></div><br>
+                    <% end %>                 
+                  </li>
+                  <% if is_runner?(@user) %>
+                    <li class="avatar">
+                      <div><strong>Created by:<br/></strong></div>
+                      <img src="<%= gravatarme(job) %>"><br>
+                      <div><strong><%= job.user.login %><br/></strong></div>
+                    </li>
+                  <% elsif job.runner.present? %>
+                  <li class="avatar">
+                    <div><strong>Assigned to<br/></strong></div>
+                    <img src="<%= gravataruser(job.runner) %>"><br>
+                    <div><strong><%= job.user.login %></strong></div>
+                    <div id="time" class="est-time small radius button secondary disabled">Target: <%= est_time_comp(job) %></div><br>
+                  </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="small-12 columns">
+                <div class='light panel radius bottom'>
+                  <%= simple_format(job.description) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row job-buttons">
+              <div class="small-6 columns">
+                <div class="button small radius secondary" onclick='$(".hm<%= i %>").toggle();'>messages</div>
+              </div>
+            </div>
+
+            <div class="messages hm<%= i %>">
+              <div class="row">
+                <div class="small-12 columns">
+                  <% messages = job.messages %>
+                    <div class="msgs panel radius light">
+                      <ul id="hm<%= i %>-message-ul">
+                      <% if messages.present? %>
+                        
+                            <% messages.each do |m| %>
+                              <% login = m.user_id.present? ? m.user.login : m.runner.login %>
+                              <li class="message">
+                                <p>
+                                  <strong><%= login %></strong>: <%= simple_format(m.body) %>
+                                  <span id="sent-at">Sent on <%= m.created_at.strftime("%b %d at %l:%M%p") %></span>
+                                </p>
+                              </li>
+                            <% end %>
+                      <% else %>
+                        <li id="hm<%= i %>-no-message" class="message">
+                          <p> No messages for this job </p>
+                        </li>
+                      <% end %>
+                      </ul>
+                    </div>  
+                </div>
+              </div>
+
+              <div class="row new-message">
+                <div class="small-12 columns">
+                  <%= form_for @message do |f| %>
+                    <%= f.text_area :body, {placeholder: 'enter a new message...'} %>
+                    <%= f.hidden_field :job_id, value: job.id %>
+                    <%= f.submit 'send message', class: 'button small radius secondary message-button', "data-job-id" => job.id %>
+                    <div id="message<%= i %>-validation-errors"> </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="empty panel radius history-job">
+        <p>no history at the moment</p>
+      </div>
+    <% end %>
+  </div>
+</section>

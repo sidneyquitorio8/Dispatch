@@ -1,0 +1,245 @@
+<%= javascript_tag do %>
+	var start_date = new Date("<%= @start_date %>");
+	var mean_response_time = new Array();
+	var i = 0;
+	converted_date = new Array();
+	mean_response_time[0] = new Array();
+	<% @response_time.each_with_index do |v, k| %>
+		mean_response_time[0][i] = new Array();
+		converted_date[<%= k %>] = Date.UTC(start_date.getFullYear(), start_date.getMonth(), start_date.getDate()+<%= k %>);
+		mean_response_time[0][i] = [converted_date[<%= k %>], <%= v[1] %>];
+		i++;
+	<% end %>
+
+	var est_time = new Array();
+	var i = 0;
+	converted_date = new Array();
+	est_time[0] = new Array();
+	<% @est_time.each_with_index do |v, k| %>
+		est_time[0][i] = new Array();
+		converted_date[<%= k %>] = Date.UTC(start_date.getFullYear(), start_date.getMonth(), start_date.getDate()+<%= k %>);
+		est_time[0][i] = [converted_date[<%= k %>], <%= v[1] %>];
+		i++;
+	<% end %>
+
+	var completed_time = new Array();
+	var i = 0;
+	converted_date = new Array();
+	completed_time[0] = new Array();
+	<% @completed_time.each_with_index do |v, k| %>
+		completed_time[0][i] = new Array();
+		converted_date[<%= k %>] = Date.UTC(start_date.getFullYear(), start_date.getMonth(), start_date.getDate()+<%= k %>);
+		completed_time[0][i] = [converted_date[<%= k %>], <%= v[1] %>];
+		i++;
+	<% end %>
+
+	var jobs_per_day = new Array();
+	var i = 0;
+	converted_date = new Array();
+	jobs_per_day[0] = new Array();
+	<% @jobs_per_day.each_with_index do |v,k| %>
+		jobs_per_day[0][i] = new Array();
+		converted_date[<%= k %>] = Date.UTC(start_date.getFullYear(), start_date.getMonth(), start_date.getDate()+<%= k %>);
+		jobs_per_day[0][i] = [converted_date[<%= k %>], <%= v[1] %>];
+		i++;
+	<% end %>
+	
+	var options = {
+		series: {
+			lines: { show: true },
+			points: { show: true }
+		},
+		pan: {
+			interactive: true
+		},
+		xaxis: {
+			minTickSize: [1, "day"],
+			mode: "time",
+			timeformat: "%m/%d/%Y"
+		},
+		yaxis: {
+			panRange: false,
+			tickFormatter: function(val, axis) { return val < axis.max ? val.toFixed(2) : "minutes";}
+		},
+		grid: {
+			hoverable: true //IMPORTANT! this is needed for tooltip to work
+		},
+		tooltip: true,
+		tooltipOpts: {
+			content: "%x is %y",
+			dateFormat: "%m-%d-%y",
+			shifts: {
+				x: 15,
+				y: -30
+			}
+		}	
+	};
+
+	var total_day_options = {
+		series: {
+			lines: { show: true },
+			points: { show: true }
+		},
+		pan: {
+			interactive: true
+		},
+		xaxis: {
+			minTickSize: [1, "day"],
+			mode: "time",
+			timeformat: "%m/%d/%Y"
+		},
+		yaxis: {
+			panRange: false,
+		},
+		grid: {
+			hoverable: true //IMPORTANT! this is needed for tooltip to work
+		},
+		tooltip: true,
+		tooltipOpts: {
+			content: "%x is %y",
+			dateFormat: "%m-%d-%y",
+			shifts: {
+				x: 15,
+				y: -30
+			}
+		}	
+	};
+
+	var pie_options = {	
+            series: {
+                pie: {
+                    show: true,
+                    radius: 1,
+                    label: {
+                        show: true,
+                        radius: 2 / 3,
+                        formatter: function (label, series) {
+                            return '<div style="font-size:15pt;text-align:center;padding:2px;color:white;">' + '<br/>' + Math.round(series.percent) + '% (' + series.data[0][1] + ')</div>';
+
+                        },
+                        threshold: 0.1
+                    }
+                }
+            },
+    legend: {
+      show: true
+    }
+	};
+
+	$(document).ready(function() {
+		$.plot($("#mean_response_time"), mean_response_time, options);
+		$.plot($("#mean_est_time"), est_time, options);
+		$.plot($("#mean_completed_time"), completed_time, options);
+		$.plot($("#jobs_per_day"), jobs_per_day, total_day_options);
+		speed_pie_data = [
+			{
+       label: "Fantastic",
+       data: <%= @speed["Fantastic"] %>   
+     	},
+     	{
+       label: "Okay",
+       data: <%= @speed["Okay"] %> 
+     	},
+     	{
+       label: "Terrible",
+       data: <%= @speed["Terrible"] %> 
+     	}
+		];
+		$.plot($("#speed"), speed_pie_data, pie_options);
+		quality_pie_data = [
+			{
+       label: "Fantastic",
+       data: <%= @quality["Fantastic"] %>   
+     	},
+     	{
+       label: "Okay",
+       data: <%= @quality["Okay"] %> 
+     	},
+     	{
+       label: "Terrible",
+       data: <%= @quality["Terrible"] %> 
+     	}
+		];
+		$.plot($("#quality"), quality_pie_data, pie_options);
+		category_pie_data = [
+			{
+       label: "Bistro Card",
+       data: <%= @category["Bistro Card"] %>   
+     	},
+     	{
+       label: "Supplies",
+       data: <%= @category["Supplies"] %>   
+     	},
+     	{
+       label: "Print",
+       data: <%= @category["Print"] %>   
+     	},
+     	{
+       label: "Research",
+       data: <%= @category["Research"] %>   
+     	},
+     	{
+       label: "Room Booking",
+       data: <%= @category["Room Booking"] %>   
+     	},
+     	{
+       label: "Return",
+       data: <%= @category["Return"] %>   
+     	},
+     	{
+       label: "Catering",
+       data: <%= @category["Catering"] %>   
+     	},
+     	{
+       label: "Other",
+       data: <%= @category["Other"] %>   
+     	},
+		];
+		$.plot($("#category"), category_pie_data, pie_options);
+	});
+
+<% end %>
+
+<div class="admin">
+	<div class="row button-row">
+		<div class="small-3 columns">
+
+			<%= link_to 'Create Admin', "/user/edit/admin", class: 'button radius' %>
+
+		</div>
+
+		<div class="small-3 columns">
+
+			<%= link_to 'Create Runner', new_authorized_runner_path, class: 'button radius' %>
+
+		</div>
+
+		<div class="small-3 columns">
+
+			<%= link_to 'View Runners', "/runners/", class: 'button radius' %>
+
+		</div>
+
+		<div class="small-3 columns">
+
+			<%= link_to 'View Users', "/users/", class: 'button radius' %>
+
+		</div>
+	</div> <br />
+
+	<h2> Mean Response Time </h2>
+	<div class="chart" id="mean_response_time"> </div> <br />
+	<h2> Mean Estimated Time </h2>
+	<div class="chart" id="mean_est_time"> </div> <br />
+	<h2> Mean Completed Time </h2>
+	<div class="chart" id="mean_completed_time"> </div> <br />
+	<h2> Created Jobs Per Day </h2>
+	<div class="chart" id="jobs_per_day"> </div> <br />
+	<h2> Speed </h2>
+	<div class="chart" id="speed"> </div> <br />
+	<h2> Quality </h2>
+	<div class="chart" id="quality"> </div> <br />
+	<h2> Categories </h2>
+	<div class="chart" id="category"> </div> <br />
+
+</div>

@@ -1,0 +1,58 @@
+<div id="jobs">
+  <div class="row">
+    <div class="small-12 columns">
+
+    	<% if !is_runner?(@user) %>
+	    	<div class="row">
+				  <div class="small-12 columns">
+				    <%= link_to 'New Job', new_job_path, "data-no-turbolink" => "true", class: 'button radius' %>
+				  </div>
+				</div>
+      <% else %>
+        <div class="row">
+          <div class="small-12 columns">
+            <%= link_to 'New Job', "/jobs/new/runner", "data-no-turbolink" => "true", class: 'button radius' %>
+          </div>
+        </div>
+			<% end %>
+
+			<div class="section-container auto" data-section>
+				<% if is_runner?(@user) %>
+					<%= render 'index_unassigned' %>
+          <%= render 'index_active' %>
+          <%= render 'index_assigned' %>
+  			  <%= render 'index_history' %>
+        <% else %>
+          <%= render 'index_active' %>
+          <%= render 'index_history' %>
+          <% if @user.admin %>
+            <%= render 'index_all' %>
+          <% end %>
+        <% end %>
+			</div>
+
+    </div>
+  </div>
+</div>
+
+<% if is_runner?(@user) %>
+  <%= render 'responder' %>
+<% end %>
+
+<% if !is_runner?(@user) %>
+  <div id="cancel_modal" class="reveal-modal medium">
+    <div class="row">
+      <div class="small-12 columns">
+
+        <h2>Are you sure?</h2>
+
+        <%= form_for Job.new , html: { id: "edit_job", class: "edit_job" }, method: :put do |f| %>
+          <%= f.hidden_field :status, value: 'cancelled' %>
+          <%= f.submit "Yes", class: 'button small alert radius' %>
+          <input class="button small" value="Nevermind" id="cancelcancel">
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+<% end %>

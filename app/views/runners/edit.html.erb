@@ -1,0 +1,33 @@
+<div id="job-new">
+	<div class="row">
+		<div class="small-12 columns">
+			<div id="new-job">
+							<%= form_for(@runner) do |f| %>
+								<div class="field">
+									<%= f.label :email %> <br />
+									<%= f.text_field :email %> <br />
+								</div>
+								<div class="field">
+									<%= f.label "Cell (Must be 10 digits to be valid)" %> <br />
+									<%= f.text_field :cell %> <br />
+								</div>
+
+										<div class="custom checkbox">
+											<%= f.label "Get Email" %> <br />
+											<%= f.check_box :send_email, class: "checkbox" %>
+										</div>
+
+										<div class="custom checkbox">
+											<%= f.label "Get Text" %> <br />
+											<%= f.check_box :send_text, class: "checkbox" %> <br />
+										</div>
+
+								<div class="actions">
+						      <%= f.submit "Submit", class: "button small radius" %>
+						      <%= link_to "go back", @user, class: "button small radius secondary" %>
+						    </div>
+							<% end %>
+			</div>
+		</div>
+	</div>
+</div>

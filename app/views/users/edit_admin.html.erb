@@ -1,0 +1,19 @@
+<div id="job-new">
+	<div class="row">
+		<div class="small-12 columns">
+			<h1>New Admin</h1>
+			<div id="new-job">
+				<%= form_tag(:controller => "users", :action => "update_admin", :method => "post") %>
+			    <div class="field">
+			      <%= label_tag(:user_login, "User Login") %>
+						<%= text_field_tag(:user_login) %>
+			    </div>
+			    <div class="actions">
+			     	<%= submit_tag("Authorize", class: "button small radius", id: "new-admin-submit") %>
+			      <%= link_to "go back", "/admin", class: "button small radius secondary" %>
+			      <div id="runner-new-job-errors"> </div>
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>

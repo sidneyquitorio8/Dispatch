@@ -1,0 +1,7 @@
+<% if @survey.speed.nil?  %> 
+	<%= render 'form' %>
+<% else %>
+  <div id="survey-error">
+    <b> You already filled out this form </b>
+  </div>
+<% end %>

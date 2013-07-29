@@ -1,0 +1,43 @@
+<div id="job-new">
+  <div class="row">
+    <div class="small-12 columns">
+      <div id="new-job">        
+        <h1>Survey for <%= link_to @job.category, @job%> job</h1>
+        <p style='color:red'>* Required </p>
+        <%= form_for(@survey) do |f| %>
+          <div class="survey-question">
+            <b> How would you rate the time it took to get your request answered? <span style='color:red'>*</span></b> <br /><br />
+          </div>
+          <div class="survey">
+            <%= f.radio_button :speed, "Fantastic" %>
+            <%= f.label "Fantastic" %>
+            <%= f.radio_button :speed, "Okay" %>
+            <%= f.label "Okay" %>
+            <%= f.radio_button :speed, "Terrible" %>
+            <%= f.label "Terrible" %>
+          </div> <br /><br />
+          <div class="survey-question">
+            <b> How would you rate the service level you received? <span style='color:red'>*</span></b> <br /><br />
+          </div>
+          <div class="survey">
+            <%= f.radio_button :service, "Fantastic" %>
+            <%= f.label "Fantastic" %>
+            <%= f.radio_button :service, "Okay" %>
+            <%= f.label "Okay" %>
+            <%= f.radio_button :service, "Terrible" %>
+            <%= f.label "Terrible" %>
+          </div> <br /><br />
+          <div class="survey-question">
+            <b> Is there any service you would like to see we don't currently offer? </b> <br /><br />
+          </div>
+          <div class="field">
+            <%= f.text_area :suggestion %>
+          </div>
+          <div class="actions">
+            <%= f.submit "Submit", id: "submit-survey", class: "button small radius" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

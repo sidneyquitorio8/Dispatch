@@ -1,0 +1,135 @@
+body {padding-bottom: 60px; min-height: 540px;}
+input.button {-webkit-appearance: none; height: 43px;}
+input.button.small {padding: 0 15px 2px; height: 30px;}
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {-webkit-appearance: none;}
+.top-bar-section li a:not(.button):hover {background-color: #EEE;}
+.top-bar .name h1 a {color: #2BA6CB;}
+.alert-box {margin-top: -20px; font-size: 18px; text-align: center;}
+.alert-box .close {top: 14px; z-index: 101;}
+.light.panel {background: #fff;}
+.dark.panel {color: #fff; background: #919191; border: 1px solid #6F6D6D;}
+#global-alerts {overflow: auto; padding: 18px 14px 14px; text-align: center; height: 54px;}
+#global-alerts .alert {color: #fff;}
+.hidden {display: none;}
+li {list-style: none;}
+.small-block-grid-2 > li {padding-bottom: 0;}
+#landing, #flashy {margin-top: 20px;}
+.actions {margin-top: 20px;}
+#clocker {
+	text-align: center;
+	.panel {padding: 0.7em;}
+	.light.panel {font-size: 14px; margin-bottom: 0; padding: 7px 0 0 0; height: 30px;}
+	.button {width: 100%; margin-bottom: 0;}
+	form {margin-bottom: 0;}
+}
+#signin {
+	.inline {display: inline-block;}
+	.button {width: 150px;}
+	input[type='checkbox'] {margin-left: 20px;}
+	label.inline {position: relative; top: 1px;}
+	label.inline:hover {color: #2BA6CB;}
+}
+
+#jobs {
+	.content {padding: 1.25em 1.25em 0 1.25em;}
+	.job.panel {padding: 0.8em 1.25em 0.35em; margin-bottom: 1.25em; line-height: 1.6;}
+	.show.job.panel {margin-bottom: 0;}
+	.row.runner-buttons {margin-top: 20px;}
+	.row.runner-buttons form, .row.job-buttons form {margin-bottom: 0;}
+	.row.job-buttons {margin-bottom: 10px; margin-top: 20px;}
+	.job-buttons .button, .runner-buttons .button {width: 100%; margin-bottom: 0;}
+	.empty.panel {margin-bottom: 1.25em; padding: 1.25em}
+	.panel.bottom {color: #555; margin-bottom: 0; margin-top: 0.8em;}
+	textarea {margin-top: 16px; margin-bottom: 20px;}
+	.new-message input.button {float: right;}
+	.messages ul {margin-left: 0;}
+	.messages {display: none;}
+	li.message {margin-top: 10px;}
+	li.message, li.message p {margin-bottom: 0;}
+	form#new_message {margin-bottom: 0;}
+	#sent-at {color: #bbb;}
+	.avatar {text-align: right;}
+	.avatar img {-webkit-border-radius: 50px; -moz-border-radius: 50px; border-radius: 50px;}
+	.status, .est-time {padding: 4px;}
+	.status {margin: 6px 0;}
+	.est-time {margin: 6px 0 0;}
+	.msgs.panel {padding-top: 3px; padding-bottom: 13px; margin-top: 10px; margin-bottom: 4px;}
+	.edit-profile {text-align: center}
+}
+
+#new-job {
+	.checkbox {display: inline-block; width: 150px; margin-right: 25px}
+	.button {display: inline-block; width: 150px;}
+	.secondary {position: relative; top: -1px; margin-left: 20px;}
+	// select {height: 30px;}
+	// select#job_category {height: 30px;}
+	// .survey-label {font-size: 0.875em; color: #4d4d4d; cursor: pointer; display: inline; font-weight: 500; margin-bottom: 0.1875em;}
+	.survey label {display: inline}
+}
+
+#landing {
+	padding-bottom: 20px;
+	.large.button {border-radius: 6px; font-size: 15px;}
+	.panel {padding: 40px 30px; margin: 0; border: none; border-radius: 8px; background-color: #EEEEEE; text-align: center;}
+	.container-narrow {margin: 0 auto; max-width: 700px;}
+	.container-narrow > hr {margin: 30px 0;}
+	.header {border-bottom: 1px solid #e5e5e5; margin-bottom: 30px;}
+	.header h3 {color: #2BA6CB; font-weight: normal; margin-top: 0; margin-bottom: 0; line-height: 40px; padding-bottom: 19px;}
+	.marketing {margin: 40px 0;}
+	.panel p {font-size: 15px;}
+	.panel h1 {font-size: 35px; margin-bottom: 20px;}
+	h4 {font-size: 16px;}
+	p {font-size: 13px;}
+	.marketing p + h4 {margin-top: 28px;}
+	.footer {padding-top: 19px; color: #777; border-top: 1px solid #e5e5e5;}
+	#heart {font-size: 30px; font-family: sans-serif;}
+	#andmore {color: #5CB85C;}
+}
+
+.admin {
+	.button-row {text-align: center;}
+	margin: 20px;
+	text-align: center;
+}
+
+#responder {
+	text-align: center;
+	h3 {margin-bottom: 15px; margin-top: -6px;}
+	input.button {margin-top: 3px; margin-bottom: 0px;}
+	#minutes {padding: 0 10%;}
+}
+
+#notification-alert {
+	b {color: #800000}
+}
+
+.chart {
+	width:600px;
+	height:300px;
+	display: inline-block;
+}
+
+#flotTip {
+	body {font-family: sans-serif; font-size: 16px; margin: 50px; max-width: 800px;}
+}
+
+//////////////////////////////////////////////////////
+//                    DESKTOP                       //
+//////////////////////////////////////////////////////
+
+@media only screen and (min-width: 767px) {
+	.section-container p.title {font-size: 18px; font-weight: bolder; min-width: 180px; text-align: center;}
+	.section-container p.title a {padding: 10px 20px;}
+	#landing {
+		.panel {padding: 50px 60px;}
+		.panel h1 {font-size: 55px; margin-bottom: 20px;}
+		.panel p {font-size: 20px;}
+		.large.button {font-size: 20px;}
+		#heart {font-size: 50px;}
+		h4 {font-size: 18px;}
+		p {font-size: 14px;}
+	}
+}
+
+
+

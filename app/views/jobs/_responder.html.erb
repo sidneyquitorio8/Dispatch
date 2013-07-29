@@ -1,0 +1,27 @@
+<div id="responder" class="reveal-modal medium">
+  <div class="row">
+    <div class="small-12 columns">
+
+      <div class="panel radius">
+        <h3>enter time</h3>
+
+        <%= form_for(@response) do |f| %>
+          <div id="minutes">
+            <%= f.number_field :est_time, {placeholder: 'min to complete...'} %>
+          </div>
+          <%= f.hidden_field :on_it_at %>
+          <%= f.hidden_field :job_id %>
+          <%= f.submit 'send response', class: 'button radius', id: "send_response" %>
+          <div id="responder-error-message" style="display: none;"><small style="color:red"> Number must be greater than 0</small></div>
+        <% end %>
+      </div>
+
+      <h2>or</h2>
+
+      <div class="panel radius">
+        <div class="button radius" id="button_on_it">i'm on it!!</div>
+      </div>
+
+    </div>
+  </div>
+</div>

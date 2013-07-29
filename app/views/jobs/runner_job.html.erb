@@ -1,0 +1,34 @@
+<div id="job-new">
+	<div class="row">
+		<div class="small-12 columns">
+			<h1>Create a Job for User</h1>
+
+				<div id="new-job">  
+				  <%= form_tag(:controller => "jobs", :action => "runner_job_create", :method => "post") %>
+				    <div class="field">
+				      <%= label_tag(:user_login, "User Login") %>
+  						<%= text_field_tag(:user_login) %>
+				    </div>
+				    <div class="field">
+				      <%= label_tag(:category, "Category") %>
+  						<%= select_tag(:category, options_for_select(["", "Bistro Card", "Supplies", "Return", "Catering", "Print", "Research", "Room Booking", "Other"])) %><br><br>
+				    </div>
+				    <div class="field">
+				      <%= label_tag(:location, "Location") %>
+  						<%= text_field_tag(:location) %>
+				    </div>
+				    <div class="field">
+				      <%= label_tag(:description, "Description") %>
+  						<%= text_area_tag(:description) %>
+				    </div>
+				    <div class="actions">
+				     	<%= submit_tag("Create Job", class: "button small radius", id: "runner-job-submit") %>
+				      <%= link_to "go back", jobs_path, class: "button small radius secondary" %>
+				      <div id="runner-new-job-errors"> </div>
+				    </div>
+				  
+				</div>
+			
+		</div>
+	</div>
+</div>

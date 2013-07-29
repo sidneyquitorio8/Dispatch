@@ -1,0 +1,11 @@
+<div class="admin">
+	<h2> List of Runners </h2>
+	<ul>
+		<% @runners.each do |r| %>
+			<li>
+				<strong> <a href="/runners/<%= r.id %>"> <%= r.login %> </a> </strong>
+			</li>
+		<% end %>
+	</ul>
+
+</div>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ctech</title>
+	<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+	<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+	<%= csrf_meta_tags %>
+</head>
+<body>
+	<div id="landing">
+		<div class="container-narrow">
+
+			<div class="row">
+				<div class="small-12 columns">					
+					<div class="header">
+						<h3>TECH CONCIERGE</h3>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="small-12 columns">
+					<div class="panel">
+						<h1>We <span id="heart">&#9829;</span> Helping</h1>
+						<p class="lead">...and we won't stop until you make a WOW face, and actually we won't stop then either.</p>
+						<% if signed_in? %>
+						<%= link_to 'Sign in', jobs_path, class: 'large success button' %>
+						<% else %>
+						<%= link_to 'Sign in', new_user_session_path, class: 'large success button' %>
+						<% end %>
+					</div>
+				</div>
+			</div>
+
+			<div class="row marketing">
+				<div class="large-6 columns">
+					<h4>Do you like free food?</h4>
+					<p>Of course you do. That may be the dumbest question ever asked on the internet. Swing by and pick up a preloaded bistro card.</p>
+
+					<h4>Returning a purchase?</h4>
+					<p>When you're in the zone coding, the last thing you want to do is run somewhere with a box. Guess what? You don't have to.</p>
+				</div>
+
+				<div class="large-6 columns">
+					<h4>Are you short a dongle?</h4>
+					<p>We are like, dongle central. We have dongles up the wazoo. Is that wierd? We have other gadgets too, just ask.</p>
+
+					<h4>Catering a meeting?</h4>
+					<p>Do you need to feed a bunch of nerds at once for a strategy session? Let us help, we haven't lost a nerd yet, to starvation anyway.</p>
+				</div>
+
+				<div class="small-12 columns">
+					<h4 id="andmore">These are just a few examples, login to the app to ask what else we can do!</h4>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="small-12 columns">					
+					<div class="footer">
+						<p>&copy; TechU 2013</p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>
+

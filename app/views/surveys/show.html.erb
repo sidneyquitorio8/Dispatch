@@ -1,0 +1,22 @@
+<% if @survey.speed.present? %>
+	<p>
+	  <b>Speed:</b>
+	  <%= @survey.speed %>
+	</p>
+
+	<p>
+	  <b>Service:</b>
+	  <%= @survey.service %>
+	</p>
+
+	<p>
+	  <b>Suggestion:</b>
+	  <%= @survey.suggestion %>
+	</p>
+
+
+	<%= link_to 'Edit', edit_survey_path(@survey) %> |
+	<%= link_to 'Back', surveys_path %>
+<% else %>
+	<b> Survey not filled out </b>
+<% end %>

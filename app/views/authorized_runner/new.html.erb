@@ -1,0 +1,19 @@
+<div id="job-new">
+	<div class="row">
+		<div class="small-12 columns">
+			<h1>New Runner</h1>
+			<div id="new-job">
+				<%= form_tag(:controller => "authorized_runner", :action => "create", :method => "post") %>
+			    <div class="field">
+			      <%= label_tag(:login, "Runner Login") %>
+						<%= text_field_tag(:login) %>
+			    </div>
+			    <div class="actions">
+			     	<%= submit_tag("Authorize", class: "button small radius", id: "new-admin-submit") %>
+			      <%= link_to "go back", "/admin", class: "button small radius secondary" %>
+			      <div id="runner-new-job-errors"> </div>
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>

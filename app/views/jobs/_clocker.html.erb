@@ -1,0 +1,41 @@
+<div id="clocker">
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="panel">
+        <div class="row">
+          <% if @user.clockings.blank? %>
+            <div class="small-6 columns">
+              <div class="light panel radius">ohai noob!</div>
+            </div>
+            <div class="small-6 columns">
+              <%= form_for(@clocking) do |f| %>
+                <%= f.hidden_field :direction, value: 'in' %>
+                <%= f.submit 'clock in', class: 'button small success radius' %>
+              <% end %>
+            </div>
+          <% elsif is_available?(@user) %>
+            <div class="small-6 columns">
+              <div class="light panel radius">in @ <%= @last_clocking.created_at.strftime("%l:%M %p") %></div>
+            </div>
+            <div class="small-6 columns">
+              <%= form_for(@clocking) do |f| %>
+                <%= f.hidden_field :direction, value: 'out' %>
+                <%= f.submit 'clock out', class: 'button small alert radius' %>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="small-6 columns">
+              <div class="light panel radius">out @ <%= @last_clocking.created_at.strftime("%l:%M%p") %></div>
+            </div>
+            <div class="small-6 columns">
+              <%= form_for(@clocking) do |f| %>
+                <%= f.hidden_field :direction, value: 'in' %>
+                <%= f.submit 'clock in', class: 'button small success radius' %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,187 @@
+<!--
+<script> 
+  var messages;
+
+  messages = (function() {
+    var pusher = new Pusher('e56f7a0fc697295bea83');
+    pusher.connection.bind('state_change', function() {
+      $('#conn_state').text(pusher.connection.state);
+    });
+
+    function addMessage(msg) {
+      
+      var body = "<li class='message'>" +
+                        "<p>" + 
+                          "<strong>" + msg["login"] + "</strong>: " + msg["body"] + "<br>" +
+                          "<span id='sent-at'>Sent on " + msg["formatted_created_at"] + "</span>" +
+                        "</p>" +
+                  "</li>";
+
+      $('.msg_list').append(body);
+      $('#no-messages-job').remove();
+    };
+
+    var msgChannel = pusher.subscribe('msg_channel');
+    
+    msgChannel.bind('msg_added', function(msg) {
+      var message_job_id = msg["job_id"];
+      var url = window.location.pathname;
+      var job_show_id = url.substring(url.lastIndexOf('/') + 1);
+      var show_integer = parseInt(job_show_id);
+      if(message_job_id == show_integer) {
+        addMessage(msg);
+      }
+    });
+
+  });
+
+  $(document).ready(messages);
+</script>
+-->
+
+
+
+<div id="jobs">
+	<div class="row">
+		<div class="small-12 columns">
+      <div class='panel light'>
+        <div class='show job panel radius'>
+
+          <div class="row">
+            <div class="small-12 columns">
+              <ul class="small-block-grid-2">
+                <li id="job-info">
+                  <strong><%= @job.category  %></strong><br>
+                  <%= @job.location %><br>
+                  <div class="status small radius button disabled <%= status_class(@job) %>"><%= @job.status %></div><br>
+                  <div class="est-time small radius button secondary disabled"> Created: <%= @job.created_at.strftime('%l:%M %p %b %d') %></div><br>
+                  <% if @job.completed_at.present? %>
+                    <div class="est-time small radius button secondary disabled"> Ended: <%= @job.completed_at.strftime('%l:%M %p %b %d') %></div><br>
+                  <% end %>         
+                </li>
+                <% if is_runner?(@user) %>
+                  <li class="avatar">
+                    <div><strong>Created by:<br/></strong></div>
+                    <img src="<%= gravatarme(@job) %>"><br>
+                    <div><strong><%= @job.user.login %><br/></strong></div>
+                  </li>
+                <% elsif @job.runner.present? %>
+                  <li class="avatar">
+                    <div><strong>Assigned to<br/></strong></div>
+                    <img src="<%= gravataruser(@job.runner) %>"><br>
+                    <div><strong><%= @job.runner.login %></strong></div>
+                    <div id="time" class="est-time small radius button secondary disabled">Target: <%= est_time_comp(@job) %></div><br>
+                  </li>
+                <% end %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="small-12 columns">
+              <div class='light panel radius bottom'>
+                <%= simple_format(@job.description) %>
+              </div>
+            </div>
+          </div>
+
+          <% if is_runner?(@user) && @job.runner_id == @user.id %>
+            <div class="row runner-buttons">
+              <div class="small-6 columns">
+                <% if completed?(@job) %>
+                  <div class="button small success radius disabled">I'm done!!</div>
+                <% else %>
+                  <%= form_for(@job) do |f| %>
+                    <%= f.hidden_field :status, value: 'completed' %>
+                    <%= f.submit "I'm done!!", class: 'button small success radius' %>
+                  <% end %>
+                <% end %>
+              </div>
+              <div class="small-6 columns">
+                <% if !on_it?(@job) && !completed?(@job) %>
+                  <% response_id = @user.responses.where(job_id: @job.id).pluck(:id)[0] %>
+                  <%= link_to "I'm on it!!", "/responses/#{response_id}", method: :put, class: "button small radius" %>
+                <% else %>
+                  <div class="button small radius disabled">I'm on it!!</div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="row job-buttons">
+            <div class="small-6 small-offset-6 columns">
+              <% if !is_runner?(@user) %>
+                <% if @job.status == 'unassigned' %>
+                  <%= form_for(@job) do |f| %>
+                    <%= f.hidden_field :status, value: 'cancelled' %>
+                    <%= f.submit "cancel job", class: 'button small alert radius' %>
+                  <% end %>
+                <% else %>
+                  <div class="button small radius alert disabled">cancel job</div>
+                <% end %>
+              <% elsif responded?(@job) || !is_available?(@user) || completed?(@job) || cancelled?(@job) %>
+                <div class="button small radius respond disabled">respond</div>
+              <% else %>
+                <div class="button small radius respond" data-reveal-id="responder" data-job-id="<%= @job.id %>" >respond</div>
+              <% end %>
+            </div>
+          </div>
+
+            <% if !is_runner?(@user) %>
+              <div class="user_completed_container" id="user_completed<%= @job.id %>">
+                <% if @job.status == 'assigned' %>
+                  <div class="row job-buttons" id="user_completed_button_row<%= @job.id %>">
+                    <div class="small-6 columns">
+                      <div class="button small success radius user_completed_button" data-job-id="<%= @job.id %>">job completed</div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+
+          <div class="show_messages">
+            <div class="row">
+              <div class="small-12 columns">
+                <% messages = @job.messages %>
+                  <div class="msgs panel radius light">
+                    <ul class="msg_list">
+                      <% if messages.present? %>
+                        <% messages.each do |m| %>
+                          <% login = m.user_id.present? ? m.user.login : m.runner.login %>
+                          <li class="message">
+                            <p>
+                              <strong><%= login %></strong>: <%= simple_format(m.body) %>
+                              <span id="sent-at">Sent on <%= m.created_at.strftime("%b %d at %l:%M%p") %></span>
+                            </p>
+                          </li>
+                        <% end %>
+                      <% else %>
+                        <li id="no-messages-job" class="message">
+                          <p> No messages for this job </p>
+                        </li>
+                      <% end %>
+                    </ul>
+                  </div>
+              </div>
+            </div>
+
+            <div class="row new-message">
+              <div class="small-12 columns">
+                <%= form_for @message do |f| %>
+                  <%= f.text_area :body, {placeholder: 'enter a new message...'} %>
+                  <%= f.hidden_field :job_id, value: @job.id %>
+                  <%= f.submit 'send message', class: 'button small radius secondary message-button', "data-job-id" => @job.id %>
+                  <div id="message<%= @job.id %>-validation-errors"> </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+		</div>
+	</div>
+</div>
+
+<% if is_runner?(@user) %>
+  <%= render 'responder' %>
+<% end %>

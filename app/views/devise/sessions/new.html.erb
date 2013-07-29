@@ -1,0 +1,27 @@
+<div id="signin">
+  <div class="row">
+    <div class="small-12 columns">
+
+			<h2>Sign in</h2>
+
+			<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+			  <div><%= f.label :login %><br />
+			  <%= f.text_field :login, :autofocus => true %></div>
+
+			  <div><%= f.label :password %><br />
+			  <%= f.password_field :password %></div>
+
+  			<div class="row actions">
+    			<div class="small-12 columns">
+    				<%= f.submit "sign in", class: "inline button small radius" %>
+    				<!--
+    				<%= f.check_box :remember_me, class: "inline" %>
+    				<%= f.label :remember_me, class: "inline" %>
+    			-->
+					</div>
+				</div>	  
+			<% end %>
+
+		</div>
+	</div>
+</div>
